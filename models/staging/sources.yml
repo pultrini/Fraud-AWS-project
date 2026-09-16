@@ -1,0 +1,45 @@
+version: 2
+
+sources:
+  - name: paysim_raw
+    description: "Dados brutos do simulador PaySim armazenados no S3 e catalogados pelo AWS Glue."
+    database: awsdatacatalog
+    schema: financial_risk_raw
+
+    tables:
+      - name: raw_paysim
+        description: "Transações financeiras originais, sem transformações."
+
+        columns:
+          - name: step
+            description: "Hora da simulação. Cada step representa uma hora."
+
+          - name: type
+            description: "Tipo da transação."
+
+          - name: amount
+            description: "Valor monetário da transação."
+
+          - name: nameorig
+            description: "Identificador da conta de origem."
+
+          - name: oldbalanceorg
+            description: "Saldo da origem antes da transação."
+
+          - name: newbalanceorig
+            description: "Saldo da origem depois da transação."
+
+          - name: namedest
+            description: "Identificador da conta de destino."
+
+          - name: oldbalancedest
+            description: "Saldo do destino antes da transação."
+
+          - name: newbalancedest
+            description: "Saldo do destino depois da transação."
+
+          - name: isfraud
+            description: "Indica se a transação é fraude: 1 para fraude e 0 caso contrário."
+
+          - name: isflaggedfraud
+            description: "Indica se a regra automática marcou a transação como fraude."

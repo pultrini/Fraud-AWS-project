@@ -1,0 +1,40 @@
+version: 2
+
+models:
+  - name: int_paysim_transactions_enriched
+    description: >
+      Transações do PaySim enriquecidas com atributos temporais,
+      classificação da conta de destino e variações de saldo.
+
+    columns:
+      - name: simulation_day
+        description: "Dia sequencial da simulação, começando em 1."
+        data_tests:
+          - not_null
+      
+      - name: simulation_hour
+        description: "Hora da simualação, variando entre 0 e 23"
+        data_tests:
+          - not_null
+      
+      - name: destination_account_type
+        description: "Classificação da conta de destino"
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values:
+                  - MERCHANT
+                  - CUSTOMER
+      
+      - name: origin_balance_delta
+        description: "Diferença entre os saldos posterior e anterior da origem"
+        data_tests:
+          - not_null
+
+
+      - name: destination_balance_delta
+        description: "Diferença entre os saldos posterior e anterior do destino"
+        data_tests:
+          - not_null
+      

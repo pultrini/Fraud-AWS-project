@@ -1,0 +1,79 @@
+version: 2
+
+models:
+  - name: fact_transactions
+    description: >
+      Tabela fato no grão de uma transação PaySim, armazenada em
+      Parquet com compressão Snappy e particionada por dia da simulação.
+
+    columns:
+      - name: transaction_id
+        description: >
+          Chave técnica determinística criada a partir dos atributos
+          originais da transação.
+        data_tests:
+          - not_null
+          - unique
+
+      - name: simulation_step
+        description: "Hora sequencial original da simulação."
+        data_tests:
+          - not_null
+
+      - name: simulation_day
+        description: "Dia sequencial usado como partição física."
+        data_tests:
+          - not_null
+
+      - name: simulation_hour
+        description: "Hora do dia, variando entre 0 e 23."
+        data_tests:
+          - not_null
+
+      - name: transaction_type
+        description: "Tipo padronizado da transação."
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values:
+                  - CASH_IN
+                  - CASH_OUT
+                  - DEBIT
+                  - PAYMENT
+                  - TRANSFER
+
+      - name: transaction_amount
+        description: "Valor monetário da transação."
+        data_tests:
+          - not_null
+
+      - name: origin_account_id
+        description: "Identificador da conta de origem."
+        data_tests:
+          - not_null
+
+      - name: destination_account_id
+        description: "Identificador da conta de destino."
+        data_tests:
+          - not_null
+
+      - name: destination_account_type
+        description: "Classificação da conta de destino."
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values:
+                  - CUSTOMER
+                  - MERCHANT
+
+      - name: is_fraud
+        description: "Indica se a transação é uma fraude conhecida."
+        data_tests:
+          - not_null
+
+      - name: is_flagged_fraud
+        description: "Indica se a regra antifraude marcou a transação."
+        data_tests:
+          - not_null

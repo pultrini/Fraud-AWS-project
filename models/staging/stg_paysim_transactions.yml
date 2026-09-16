@@ -1,0 +1,63 @@
+version: 2
+
+models:
+  - name: stg_paysim_transactions
+    description: >
+      Transações do PaySim com nomes padronizados, valores financeiros
+      convertidos para decimal e indicadores de fraude convertidos para booleano.
+
+    columns:
+      - name: simulation_step
+        description: "Hora sequencial da simulação."
+        data_tests:
+          - not_null
+
+      - name: transaction_type
+        description: "Tipo padronizado da transação."
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values:
+                  - CASH_IN
+                  - CASH_OUT
+                  - DEBIT
+                  - PAYMENT
+                  - TRANSFER
+
+      - name: transaction_amount
+        description: "Valor da transação com precisão decimal."
+        data_tests:
+          - not_null
+
+      - name: origin_account_id
+        description: "Identificador da conta que originou a transação."
+        data_tests:
+          - not_null
+
+      - name: origin_balance_before
+        description: "Saldo da conta de origem antes da transação."
+
+      - name: origin_balance_after
+        description: "Saldo da conta de origem após a transação."
+
+      - name: destination_account_id
+        description: "Identificador da conta que recebeu a transação."
+        data_tests:
+          - not_null
+
+      - name: destination_balance_before
+        description: "Saldo da conta de destino antes da transação."
+
+      - name: destination_balance_after
+        description: "Saldo da conta de destino após a transação."
+
+      - name: is_fraud
+        description: "Indica se a transação é uma fraude conhecida."
+        data_tests:
+          - not_null
+
+      - name: is_flagged_fraud
+        description: "Indica se a transação foi marcada pela regra antifraude."
+        data_tests:
+          - not_null

@@ -1,0 +1,72 @@
+version: 2
+
+models:
+  - name: mart_fraud_by_transaction_type
+    description: >
+      Métricas agregadas de volume financeiro, fraude e capacidade
+      de detecção para cada tipo de transação do PaySim.
+
+    columns:
+      - name: transaction_type
+        description: "Tipo da transação e grão do mart."
+        data_tests:
+          - not_null
+          - unique
+          - accepted_values:
+              arguments:
+                values:
+                  - CASH_IN
+                  - CASH_OUT
+                  - DEBIT
+                  - PAYMENT
+                  - TRANSFER
+
+      - name: transaction_count
+        description: "Quantidade total de transações."
+        data_tests:
+          - not_null
+
+      - name: transaction_amount_total
+        description: "Valor total movimentado."
+        data_tests:
+          - not_null
+
+      - name: transaction_amount_average
+        description: "Valor médio das transações."
+        data_tests:
+          - not_null
+
+      - name: fraudulent_transaction_count
+        description: "Quantidade de transações fraudulentas."
+        data_tests:
+          - not_null
+
+      - name: flagged_transaction_count
+        description: "Quantidade de transações marcadas pela regra antifraude."
+        data_tests:
+          - not_null
+
+      - name: detected_fraud_count
+        description: "Quantidade de fraudes corretamente marcadas pela regra."
+        data_tests:
+          - not_null
+
+      - name: missed_fraud_count
+        description: "Quantidade de fraudes não detectadas pela regra."
+        data_tests:
+          - not_null
+
+      - name: fraudulent_transaction_amount
+        description: "Valor financeiro total das transações fraudulentas."
+        data_tests:
+          - not_null
+
+      - name: fraud_rate_percent
+        description: "Percentual das transações classificadas como fraude."
+        data_tests:
+          - not_null
+
+      - name: fraud_detection_rate_percent
+        description: >
+          Percentual das fraudes detectadas pela regra. É nulo quando
+          o tipo de transação não possui fraude.
