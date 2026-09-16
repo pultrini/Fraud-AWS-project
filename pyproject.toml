@@ -5,5 +5,8 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+    "boto3>=1.43.95",
+    "dbt-athena==1.11.0",
     "duckdb>=1.5.5",
+    "python-dotenv>=1.2.3",
 ]
