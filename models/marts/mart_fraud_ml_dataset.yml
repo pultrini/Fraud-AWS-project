@@ -1,0 +1,39 @@
+version: 2
+
+models:
+  - name: mart_fraud_ml_dataset
+    description: >
+      Dataset de Machine Learning dividido cronologicamente em treino,
+      validação e teste.
+
+    columns:
+      - name: transaction_id
+        description: "Identificador único da transação."
+        data_tests:
+          - not_null
+          - unique
+          - relationships:
+              arguments:
+                to: ref('mart_fraud_training_features')
+                field: transaction_id
+
+      - name: simulation_step
+        description: "Step usado para definir o corte temporal."
+        data_tests:
+          - not_null
+
+      - name: dataset_split
+        description: "Conjunto temporal ao qual a transação pertence."
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values:
+                  - TRAIN
+                  - VALIDATION
+                  - TEST
+
+      - name: is_fraud
+        description: "Target supervisionado."
+        data_tests:
+          - not_null

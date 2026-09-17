@@ -16,6 +16,10 @@ clean-targets:
   - "target"
   - "dbt_packages"
 
+vars:
+  ml_train_end_step: 322
+  ml_validation_end_step: 375
+
 models:
   financial_risk:
     staging:
@@ -26,3 +30,4 @@ models:
 
     marts:
       +materialized: table
+

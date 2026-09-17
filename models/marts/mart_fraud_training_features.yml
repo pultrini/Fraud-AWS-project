@@ -1,0 +1,233 @@
+version: 2
+
+models:
+  - name: mart_fraud_training_features
+    description: >
+      Dataset no grão da transação preparado para treinamento e avaliação
+      de modelos de fraude, contendo apenas features disponíveis no momento
+      ou antes da transação.
+
+    columns:
+      - name: transaction_id
+        description: "Identificador único usado para rastreabilidade."
+        data_tests:
+          - not_null
+          - unique
+          - relationships:
+              arguments:
+                to: ref('fact_transactions')
+                field: transaction_id
+
+      - name: origin_account_id
+        description: "Identificador da conta de origem. Não usar diretamente como feature."
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_customer')
+                field: customer_id
+
+      - name: destination_account_id
+        description: "Identificador da conta de destino. Não usar diretamente como feature."
+        data_tests:
+          - not_null
+
+      - name: simulation_step
+        description: "Hora sequencial da simulação."
+        data_tests:
+          - not_null
+
+      - name: simulation_hour
+        description: "Hora do dia entre 0 e 23."
+        data_tests:
+          - not_null
+
+      - name: simulation_week
+        description: "Semana sequencial da simulação."
+        data_tests:
+          - not_null
+
+      - name: day_of_simulation_week
+        description: "Dia sequencial dentro da semana."
+        data_tests:
+          - not_null
+
+      - name: transaction_type
+        description: "Tipo da transação."
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_transaction_type')
+                field: transaction_type
+
+      - name: transaction_family
+        description: "Família da transação."
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values:
+                  - CASH
+                  - PAYMENT
+                  - TRANSFER
+
+      - name: balance_direction
+        description: "Direção esperada no saldo de origem."
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values:
+                  - CREDIT
+                  - DEBIT
+
+      - name: destination_account_type
+        description: "Tipo da conta de destino."
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values:
+                  - CUSTOMER
+                  - MERCHANT
+
+      - name: transaction_amount
+        description: "Valor da transação."
+        data_tests:
+          - not_null
+
+      - name: log_transaction_amount
+        description: "Logaritmo natural de um mais o valor da transação."
+        data_tests:
+          - not_null
+
+      - name: origin_balance_before
+        description: "Saldo da origem antes da transação."
+        data_tests:
+          - not_null
+
+      - name: destination_balance_before
+        description: "Saldo do destino antes da transação."
+        data_tests:
+          - not_null
+
+      - name: amount_to_origin_balance_ratio
+        description: "Razão entre valor e saldo anterior da origem."
+
+      - name: amount_to_destination_balance_ratio
+        description: "Razão entre valor e saldo anterior do destino."
+
+      - name: origin_has_sufficient_balance
+        description: "Indica se o saldo anterior da origem cobre a transação."
+        data_tests:
+          - not_null
+
+      - name: destination_has_recorded_balance
+        description: "Indica se o destino possui saldo anterior positivo."
+        data_tests:
+          - not_null
+
+      - name: is_merchant_destination
+        description: "Indica se o destino é um merchant."
+        data_tests:
+          - not_null
+
+      - name: is_transfer
+        description: "Indica se a transação é do tipo TRANSFER."
+        data_tests:
+          - not_null
+
+      - name: is_cash_transaction
+        description: "Indica se a transação pertence à família de dinheiro."
+        data_tests:
+          - not_null
+
+      - name: is_higher_fraud_risk_type
+        description: "Indica TRANSFER ou CASH_OUT."
+        data_tests:
+          - not_null
+
+      - name: customer_transaction_number
+        description: "Posição da transação no histórico do cliente."
+        data_tests:
+          - not_null
+
+      - name: has_previous_transaction
+        description: "Indica se existe uma transação anterior."
+        data_tests:
+          - not_null
+
+      - name: previous_transaction_amount
+        description: "Valor da transação anterior."
+
+      - name: hours_since_previous_transaction
+        description: "Horas desde a transação anterior."
+
+      - name: days_since_previous_transaction
+        description: "Dias fracionários desde a transação anterior."
+
+      - name: transaction_count_last_10
+        description: "Quantidade de observações na janela das dez anteriores."
+        data_tests:
+          - not_null
+
+      - name: avg_last_10_transactions
+        description: "Média das dez transações anteriores."
+
+      - name: std_last_10_transactions
+        description: "Desvio-padrão das dez transações anteriores."
+
+      - name: has_full_10_transaction_history
+        description: "Indica se a janela possui dez transações anteriores."
+        data_tests:
+          - not_null
+
+      - name: historical_transaction_count
+        description: "Quantidade total de transações anteriores."
+        data_tests:
+          - not_null
+
+      - name: customer_average_amount
+        description: "Média histórica anterior do cliente."
+
+      - name: cumulative_transaction_value
+        description: "Valor acumulado antes da transação atual."
+
+      - name: amount_vs_customer_average
+        description: "Diferença entre valor atual e média anterior."
+
+      - name: amount_to_customer_average_ratio
+        description: "Razão entre valor atual e média anterior."
+
+      - name: amount_zscore_last_10
+        description: "Z-score contra as últimas dez transações anteriores."
+
+      - name: transaction_count_24h
+        description: "Transações nas 24 horas anteriores."
+        data_tests:
+          - not_null
+
+      - name: transaction_count_7d
+        description: "Transações nas 168 horas anteriores."
+        data_tests:
+          - not_null
+
+      - name: baseline_rule_flag
+        description: "Resultado da regra original, mantido somente para comparação."
+        data_tests:
+          - not_null
+
+      - name: is_fraud
+        description: "Target supervisionado."
+        data_tests:
+          - not_null
+
+      - name: simulation_day
+        description: "Partição física e dia da simulação."
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_simulation_day')
+                field: simulation_day
