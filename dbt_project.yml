@@ -24,10 +24,69 @@ models:
   financial_risk:
     staging:
       +materialized: view
+      +tags:
+        - staging
 
     intermediate:
       +materialized: view
+      +tags:
+        - intermediate
+
+      int_customer_transaction_features:
+        +tags:
+          - features
+          - ml
 
     marts:
       +materialized: table
+      +tags:
+        - marts
+
+      fact_transactions:
+        +tags:
+          - core
+
+      dim_customer:
+        +tags:
+          - dimension
+
+      dim_transaction_type:
+        +tags:
+          - dimension
+
+      dim_simulation_day:
+        +tags:
+          - dimension
+
+      mart_fraud_by_transaction_type:
+        +tags:
+          - fraud
+          - dashboard
+
+      mart_fraud_daily:
+        +tags:
+          - fraud
+          - daily
+          - dashboard
+
+      mart_customer_risk:
+        +tags:
+          - fraud
+          - risk
+          - dashboard
+
+      mart_transaction_behavior:
+        +tags:
+          - fraud
+          - dashboard
+
+      mart_fraud_training_features:
+        +tags:
+          - fraud
+          - ml
+
+      mart_fraud_ml_dataset:
+        +tags:
+          - fraud
+          - ml
 

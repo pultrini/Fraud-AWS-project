@@ -64,16 +64,23 @@ final as (
         *,
 
         cast(
-            100.0
-            * fraudulent_transaction_count
-            / nullif(transaction_count, 0)
+            {{
+                fraud_rate(
+                    'fraudulent_transaction_count',
+                    'transaction_count'
+                )
+            }}
             as decimal(10, 4)
         ) as fraud_rate_percent,
 
         cast(
-            100.0
-            * detected_fraud_count
-            / nullif(fraudulent_transaction_count, 0)
+            {{
+                safe_divide(
+                    'detected_fraud_count',
+                    'fraudulent_transaction_count',
+                    100.0
+                )
+            }}
             as decimal(10, 4)
         ) as fraud_detection_rate_percent
 

@@ -1,10 +1,12 @@
 {{
     config(
-        materialized='table',
+        materialized='incremental',
+        incremental_strategy='insert_overwrite',
         table_type='hive',
         format='parquet',
         write_compression='SNAPPY',
-        partitioned_by=['simulation_day']
+        partitioned_by=['simulation_day'],
+        on_schema_change='sync_all_columns'
     )
 }}
 
@@ -12,6 +14,21 @@ with enriched_transactions as (
 
     select *
     from {{ ref('int_paysim_transactions_enriched') }}
+
+    {% if is_incremental() %}
+
+        where simulation_day >= (
+
+            select coalesce(
+                max(simulation_day),
+                1
+            )
+
+            from {{ this }}
+
+        )
+
+    {% endif %}
 
 ),
 

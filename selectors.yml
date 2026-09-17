@@ -1,0 +1,26 @@
+selectors:
+  - name: ml_pipeline
+    description: "Dataset de ML e todas as suas dependências."
+    definition:
+      method: tag
+      value: ml
+      parents: true
+
+  - name: daily_pipeline
+    description: "Mart diário e todas as suas dependências."
+    definition:
+      method: tag
+      value: daily
+      parents: true
+
+  - name: dashboard_marts
+    description: "Marts consumidos pelos dashboards."
+    definition:
+      method: tag
+      value: dashboard
+
+  - name: dimensions
+    description: "Todas as dimensões analíticas."
+    definition:
+      method: tag
+      value: dimension

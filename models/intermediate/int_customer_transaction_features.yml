@@ -48,3 +48,60 @@ models:
         description: "Partição física do modelo."
         data_tests:
           - not_null
+
+      - name: transaction_count_last_10
+        description: >
+          Quantidade de transações anteriores consideradas na janela
+          móvel de dez operações.
+        data_tests:
+          - not_null
+
+      - name: avg_last_10_transactions
+        description: >
+          Média dos valores das dez transações anteriores. É nula
+          quando o cliente ainda não possui histórico.
+
+      - name: std_last_10_transactions
+        description: >
+          Desvio-padrão amostral das dez transações anteriores. É nulo
+          quando existem menos de duas observações anteriores.
+
+      - name: historical_transaction_count
+        description: "Quantidade total de transações anteriores do cliente."
+        data_tests:
+          - not_null
+
+      - name: customer_average_amount
+        description: >
+          Média do valor de todas as transações anteriores do cliente.
+
+      - name: cumulative_transaction_value
+        description: >
+          Soma dos valores de todas as transações anteriores do cliente.
+
+      - name: transaction_count_24h
+        description: >
+          Quantidade de transações do cliente nas 24 horas anteriores,
+          excluindo o step atual.
+        data_tests:
+          - not_null
+
+      - name: transaction_count_7d
+        description: >
+          Quantidade de transações do cliente nas 168 horas anteriores,
+          excluindo o step atual.
+        data_tests:
+          - not_null
+
+      - name: amount_vs_customer_average
+        description: >
+          Diferença entre o valor atual e a média histórica anterior.
+
+      - name: amount_to_customer_average_ratio
+        description: >
+          Razão entre o valor atual e a média histórica anterior.
+
+      - name: amount_zscore_last_10
+        description: >
+          Distância padronizada entre o valor atual e o comportamento
+          das dez transações anteriores.
