@@ -1,0 +1,40 @@
+version: 2
+
+models:
+  - name: dim_transaction_type
+    description: >
+      Dimensão de referência com a classificação dos tipos de
+      transação existentes no PaySim.
+
+    columns:
+      - name: transaction_type
+        description: "Código único do tipo de transação."
+        data_tests:
+          - not_null
+          - unique
+
+      - name: transaction_family
+        description: "Família de negócio da transação."
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values:
+                  - CASH
+                  - PAYMENT
+                  - TRANSFER
+
+      - name: balance_direction
+        description: "Direção esperada no saldo da conta de origem."
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values:
+                  - CREDIT
+                  - DEBIT
+
+      - name: description
+        description: "Descrição legível do tipo de transação."
+        data_tests:
+          - not_null

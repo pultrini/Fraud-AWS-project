@@ -1,0 +1,44 @@
+version: 2
+
+models:
+  - name: dim_simulation_day
+    description: >
+      Dimensão temporal da simulação PaySim, com uma linha por dia
+      sequencial. Não representa datas reais de calendário.
+
+    columns:
+      - name: simulation_day
+        description: "Chave única do dia da simulação."
+        data_tests:
+          - not_null
+          - unique
+
+      - name: simulation_week
+        description: "Semana sequencial da simulação."
+        data_tests:
+          - not_null
+
+      - name: day_of_simulation_week
+        description: "Dia sequencial dentro da semana, entre 1 e 7."
+        data_tests:
+          - not_null
+
+      - name: first_simulation_step
+        description: "Primeiro step observado no dia."
+        data_tests:
+          - not_null
+
+      - name: last_simulation_step
+        description: "Último step observado no dia."
+        data_tests:
+          - not_null
+
+      - name: observed_hour_count
+        description: "Quantidade de horas distintas observadas no dia."
+        data_tests:
+          - not_null
+
+      - name: is_complete_day
+        description: "Indica se todas as 24 horas estão presentes."
+        data_tests:
+          - not_null

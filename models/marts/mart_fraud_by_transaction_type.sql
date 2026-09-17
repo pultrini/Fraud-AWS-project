@@ -8,7 +8,7 @@
 
 with transactions as (
     select *
-    from {{ ref('int_paysim_transactions_enriched') }}
+    from {{ ref('fact_transactions') }}
 ),
 
 aggregated as (

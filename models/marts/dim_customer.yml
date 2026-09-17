@@ -1,0 +1,60 @@
+version: 2
+
+models:
+  - name: dim_customer
+    description: >
+      Dimensão com uma linha por cliente, contendo o período em que
+      a conta apareceu e sua participação como origem ou destino.
+
+    columns:
+      - name: customer_id
+        description: "Identificador único do cliente."
+        data_tests:
+          - not_null
+          - unique
+
+      - name: first_seen_step
+        description: "Primeiro step em que o cliente apareceu."
+        data_tests:
+          - not_null
+
+      - name: last_seen_step
+        description: "Último step em que o cliente apareceu."
+        data_tests:
+          - not_null
+
+      - name: first_seen_day
+        description: "Primeiro dia em que o cliente apareceu."
+        data_tests:
+          - not_null
+
+      - name: last_seen_day
+        description: "Último dia em que o cliente apareceu."
+        data_tests:
+          - not_null
+
+      - name: originated_transaction_count
+        description: "Quantidade de transações originadas pelo cliente."
+        data_tests:
+          - not_null
+
+      - name: received_transaction_count
+        description: "Quantidade de transações recebidas pelo cliente."
+        data_tests:
+          - not_null
+
+      - name: total_involved_transaction_count
+        description: "Total de transações em que o cliente participou."
+        data_tests:
+          - not_null
+
+      - name: customer_role
+        description: "Papéis desempenhados pelo cliente nas transações."
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values:
+                  - ORIGIN_ONLY
+                  - DESTINATION_ONLY
+                  - ORIGIN_AND_DESTINATION

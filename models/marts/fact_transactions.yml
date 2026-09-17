@@ -24,6 +24,10 @@ models:
         description: "Dia sequencial usado como partição física."
         data_tests:
           - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_simulation_day')
+                field: simulation_day
 
       - name: simulation_hour
         description: "Hora do dia, variando entre 0 e 23."
@@ -42,6 +46,10 @@ models:
                   - DEBIT
                   - PAYMENT
                   - TRANSFER
+          - relationships:
+              arguments:
+                to: ref('transaction_types')
+                field: transaction_type
 
       - name: transaction_amount
         description: "Valor monetário da transação."
@@ -52,11 +60,21 @@ models:
         description: "Identificador da conta de origem."
         data_tests:
           - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_customer')
+                field: customer_id
 
       - name: destination_account_id
         description: "Identificador da conta de destino."
         data_tests:
           - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_customer')
+                field: customer_id
+              config:
+                where: "destination_account_type = 'CUSTOMER'"
 
       - name: destination_account_type
         description: "Classificação da conta de destino."

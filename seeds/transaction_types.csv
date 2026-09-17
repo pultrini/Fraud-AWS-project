@@ -1,0 +1,6 @@
+transaction_type,transaction_family,balance_direction,description
+CASH_IN,CASH,CREDIT,Cash deposited into an account
+CASH_OUT,CASH,DEBIT,Cash withdrawn from an account
+DEBIT,PAYMENT,DEBIT,Direct debit transaction
+PAYMENT,PAYMENT,DEBIT,Payment made to a merchant
+TRANSFER,TRANSFER,DEBIT,Transfer between customer accounts
