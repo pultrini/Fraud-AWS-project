@@ -1,0 +1,50 @@
+version: 2
+
+models:
+  - name: int_customer_transaction_features
+    description: >
+      Transações sequenciadas por cliente de origem, com informações
+      sobre as transações anterior e seguinte.
+
+    columns:
+      - name: transaction_id
+        description: "Identificador da transação."
+        data_tests:
+          - not_null
+          - unique
+          - relationships:
+              arguments:
+                to: ref('fact_transactions')
+                field: transaction_id
+
+      - name: origin_account_id
+        description: "Cliente usado para construir o histórico."
+        data_tests:
+          - not_null
+
+      - name: customer_transaction_number
+        description: "Posição sequencial da transação no histórico do cliente."
+        data_tests:
+          - not_null
+
+      - name: previous_transaction_amount
+        description: "Valor da transação anterior do cliente."
+
+      - name: previous_transaction_step
+        description: "Step da transação anterior do cliente."
+
+      - name: next_transaction_amount
+        description: >
+          Valor da próxima transação. Coluna diagnóstica que não deve
+          ser usada como feature de treinamento.
+
+      - name: hours_since_previous_transaction
+        description: "Horas desde a transação anterior."
+
+      - name: days_since_previous_transaction
+        description: "Dias fracionários desde a transação anterior."
+
+      - name: simulation_day
+        description: "Partição física do modelo."
+        data_tests:
+          - not_null

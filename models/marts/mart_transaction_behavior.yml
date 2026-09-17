@@ -1,0 +1,113 @@
+version: 2
+
+models:
+  - name: mart_transaction_behavior
+    description: >
+      Métricas de comportamento transacional agregadas por dia da
+      simulação, tipo de transação e papel do cliente de origem.
+
+    columns:
+      - name: simulation_day
+        description: "Dia da simulação."
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_simulation_day')
+                field: simulation_day
+
+      - name: simulation_week
+        description: "Semana sequencial da simulação."
+        data_tests:
+          - not_null
+
+      - name: day_of_simulation_week
+        description: "Dia sequencial dentro da semana, entre 1 e 7."
+        data_tests:
+          - not_null
+
+      - name: is_complete_day
+        description: "Indica se o dia possui todas as 24 horas."
+        data_tests:
+          - not_null
+
+      - name: transaction_type
+        description: "Tipo da transação."
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_transaction_type')
+                field: transaction_type
+
+      - name: transaction_family
+        description: "Família de negócio da transação."
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values:
+                  - CASH
+                  - PAYMENT
+                  - TRANSFER
+
+      - name: balance_direction
+        description: "Direção esperada no saldo da conta de origem."
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values:
+                  - CREDIT
+                  - DEBIT
+
+      - name: customer_role
+        description: "Papel do cliente de origem no conjunto de dados."
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values:
+                  - ORIGIN_ONLY
+                  - DESTINATION_ONLY
+                  - ORIGIN_AND_DESTINATION
+
+      - name: transaction_count
+        description: "Quantidade de transações do grupo."
+        data_tests:
+          - not_null
+
+      - name: distinct_customer_count
+        description: "Quantidade de clientes distintos no grupo."
+        data_tests:
+          - not_null
+
+      - name: transaction_amount_total
+        description: "Valor financeiro total do grupo."
+        data_tests:
+          - not_null
+
+      - name: transaction_amount_average
+        description: "Valor médio das transações do grupo."
+        data_tests:
+          - not_null
+
+      - name: fraudulent_transaction_count
+        description: "Quantidade de transações fraudulentas."
+        data_tests:
+          - not_null
+
+      - name: fraudulent_transaction_amount
+        description: "Valor financeiro total das fraudes."
+        data_tests:
+          - not_null
+
+      - name: flagged_transaction_count
+        description: "Quantidade de transações marcadas pela regra antifraude."
+        data_tests:
+          - not_null
+
+      - name: fraud_rate_percent
+        description: "Percentual de transações fraudulentas no grupo."
+        data_tests:
+          - not_null

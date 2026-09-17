@@ -1,0 +1,78 @@
+version: 2
+
+models:
+  - name: mart_fraud_daily
+    description: >
+      Métricas diárias de transações e fraudes, incluindo comparação
+      com o dia anterior, janela móvel de sete dias e acumulados.
+
+    columns:
+      - name: simulation_day
+        description: "Chave do dia da simulação e grão do mart."
+        data_tests:
+          - not_null
+          - unique
+          - relationships:
+              arguments:
+                to: ref('dim_simulation_day')
+                field: simulation_day
+
+      - name: simulation_week
+        description: "Semana sequencial da simulação."
+        data_tests:
+          - not_null
+
+      - name: transaction_count
+        description: "Quantidade de transações no dia."
+        data_tests:
+          - not_null
+
+      - name: transaction_amount_total
+        description: "Valor total transacionado no dia."
+        data_tests:
+          - not_null
+
+      - name: fraudulent_transaction_count
+        description: "Quantidade de fraudes no dia."
+        data_tests:
+          - not_null
+
+      - name: fraudulent_transaction_amount
+        description: "Valor financeiro fraudulento no dia."
+        data_tests:
+          - not_null
+
+      - name: fraud_rate_percent
+        description: "Percentual diário de transações fraudulentas."
+        data_tests:
+          - not_null
+
+      - name: rolling_7d_transaction_count
+        description: "Transações no dia atual e nos seis dias anteriores."
+        data_tests:
+          - not_null
+
+      - name: rolling_7d_fraud_count
+        description: "Fraudes no dia atual e nos seis dias anteriores."
+        data_tests:
+          - not_null
+
+      - name: rolling_7d_fraud_rate_percent
+        description: "Taxa ponderada de fraude na janela móvel de sete dias."
+        data_tests:
+          - not_null
+
+      - name: cumulative_transaction_count
+        description: "Quantidade acumulada de transações."
+        data_tests:
+          - not_null
+
+      - name: cumulative_fraud_count
+        description: "Quantidade acumulada de fraudes."
+        data_tests:
+          - not_null
+
+      - name: cumulative_fraudulent_amount
+        description: "Valor fraudulento acumulado."
+        data_tests:
+          - not_null

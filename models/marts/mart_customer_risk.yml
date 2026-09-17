@@ -1,0 +1,115 @@
+version: 2
+
+models:
+  - name: mart_customer_risk
+    description: >
+      Métricas comportamentais e classificação de risco dos clientes
+      de origem com pelo menos duas transações.
+
+    columns:
+      - name: customer_id
+        description: "Identificador único do cliente."
+        data_tests:
+          - not_null
+          - unique
+          - relationships:
+              arguments:
+                to: ref('dim_customer')
+                field: customer_id
+
+      - name: first_seen_day
+        description: "Primeiro dia em que o cliente apareceu."
+        data_tests:
+          - not_null
+
+      - name: last_seen_day
+        description: "Último dia em que o cliente apareceu."
+        data_tests:
+          - not_null
+
+      - name: customer_role
+        description: "Papéis desempenhados pelo cliente."
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values:
+                  - ORIGIN_ONLY
+                  - DESTINATION_ONLY
+                  - ORIGIN_AND_DESTINATION
+
+      - name: transaction_count
+        description: "Quantidade de transações originadas pelo cliente."
+        data_tests:
+          - not_null
+
+      - name: transaction_amount_total
+        description: "Valor total transacionado pelo cliente."
+        data_tests:
+          - not_null
+
+      - name: transaction_amount_average
+        description: "Valor médio das transações."
+        data_tests:
+          - not_null
+
+      - name: maximum_transaction_amount
+        description: "Maior valor transacionado."
+        data_tests:
+          - not_null
+
+      - name: average_hours_between_transactions
+        description: "Intervalo médio em horas entre transações."
+        data_tests:
+          - not_null
+
+      - name: maximum_transaction_count_24h
+        description: "Maior quantidade histórica de transações em 24 horas."
+        data_tests:
+          - not_null
+
+      - name: fraudulent_transaction_count
+        description: "Quantidade de fraudes do cliente."
+        data_tests:
+          - not_null
+
+      - name: fraudulent_transaction_amount
+        description: "Valor financeiro fraudulento do cliente."
+        data_tests:
+          - not_null
+
+      - name: high_value_anomaly_count
+        description: "Quantidade de transações classificadas como anômalas."
+        data_tests:
+          - not_null
+
+      - name: maximum_amount_zscore
+        description: "Maior z-score observado para o cliente."
+        data_tests:
+          - not_null
+
+      - name: maximum_amount_to_average_ratio
+        description: "Maior razão entre valor atual e média histórica."
+        data_tests:
+          - not_null
+
+      - name: fraud_rate_percent
+        description: "Percentual de transações fraudulentas."
+        data_tests:
+          - not_null
+
+      - name: customer_risk_level
+        description: "Classificação heurística de risco."
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values:
+                  - LOW
+                  - MEDIUM
+                  - HIGH
+
+      - name: customer_risk_rank
+        description: "Posição do cliente no ranking de risco."
+        data_tests:
+          - not_null
