@@ -1,0 +1,35 @@
+services:
+  superset:
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    container_name: financial-risk-superset
+
+    ports:
+      - "8088:8088"
+
+    env_file:
+      - .env
+
+    environment:
+      SUPERSET_CONFIG_PATH: /app/pythonpath/superset_config.py
+
+    volumes:
+      - ./superset_home:/app/superset_home
+      - ../../data/bi:/app/data/bi:ro
+      - ./superset_config.py:/app/pythonpath/superset_config.py:ro
+
+    command:
+      - /app/.venv/bin/gunicorn
+      - --bind
+      - 0.0.0.0:8088
+      - --workers
+      - "2"
+      - --threads
+      - "4"
+      - --timeout
+      - "120"
+      - superset.app:create_app()
+
+    restart: unless-stopped

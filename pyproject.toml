@@ -9,5 +9,10 @@ dependencies = [
     "dbt-athena==1.11.0",
     "dbt-core>=1.11,<1.12",
     "duckdb>=1.5.5",
+    "matplotlib>=3.11.2",
+    "mlflow>=3.16.1",
+    "pandas>=3.0.5",
+    "pyarrow>=25.0.1",
     "python-dotenv>=1.2.3",
+    "scikit-learn>=1.9.1",
 ]

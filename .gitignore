@@ -220,3 +220,14 @@ __marimo__/
 
 data/raw/*
 data/unused/*
+
+data/processed/
+
+mlflow.db
+mlruns/
+
+reports/ml/
+
+data/bi/
+
+dashboard/superset/superset_home/
