@@ -230,4 +230,8 @@ reports/ml/
 
 data/bi/
 
+# Machine learning: datasets, tracking metadata and generated models
+data/ml/
+artifacts/models/
+
 dashboard/superset/superset_home/
